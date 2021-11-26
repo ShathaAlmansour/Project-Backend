@@ -43,8 +43,6 @@ const update = (req, res) => {
     });
 };
 
-
-
 const removeUserCart = (req, res) => {
   const { email, _id } = req.params;
   userModel
@@ -104,14 +102,28 @@ const remove = (req, res) => {
       res.send(err);
     });
 };
+const updateUser = (req, res) => {
+  const { id } = req.params;
+  const { name, password, email } = req.body;
 
-module.exports = { 
-  creatUser, 
+  userModel
+    .findOneAndUpdate({ _id: id }, { name, password, email }, { new: true })
+    .exec()
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
+module.exports = {
+  creatUser,
   getAlluser,
   update,
   removeUserCart,
   getCart,
   remove,
   cartUsercheck,
-
+  updateUser,
 };
