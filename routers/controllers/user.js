@@ -116,6 +116,33 @@ const updateUser = (req, res) => {
       res.json(err);
     });
 };
+const editFullName = (req, res) => {
+  const { email } = req.params;
+  const { name } = req.body;
+  userModel
+    .findOneAndUpdate(
+      { email: `${email}` },
+      { $set: { name } },
+      { new: true }
+    )
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
+const findUserByEmail = (req, res) => {
+  const { email } = req.params;
+  userModel
+    .find({ email: `${email}` })
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
 
 module.exports = {
   creatUser,
@@ -126,4 +153,6 @@ module.exports = {
   remove,
   cartUsercheck,
   updateUser,
+  editFullName,
+  findUserByEmail,
 };
